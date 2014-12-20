@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SimpleRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +25,9 @@ public class RobotTemplate extends SimpleRobot {
       Joystick leftJoyStick = new Joystick(1);
       Joystick rightJoyStick = new Joystick(2);
       RobotDrive robotDrive = new RobotDrive(4, 3, 2, 1);
+      DoubleSolenoid climberPiston = new DoubleSolenoid(3, 4);
+      Relay compressorSpike = new Relay(1);
+      DigitalInput digitalCompresser = DigitalInput(1);
       
       
     public void autonomous() {
@@ -34,12 +38,24 @@ public class RobotTemplate extends SimpleRobot {
      * This function is called once each time the robot enters operator control.
      */
     public void operatorControl() {
-       robotDrive.setSafetyEnabled(true); 
+       robotDrive.setSafetyEnabled(true);
        
        while(isOperatorControl() && isEnabled()) {
-           robotDrive.tankDrive(leftJoyStick, rightJoyStick);
-           
-           Timer.delay(0.01);
+           robotDrive.tankDrive(-leftJoyStick.getY(), -rightJoyStick.getY());
+           if(rightJoyStick.getRawButton(6)) {
+               climberPistion.set(DoubleSolenoid.Value.kForward);
+           }
+           if(rightJoyStick.getRawButton(7)) {
+               climberPiston.set(DoubleSolenoid.Value.kReverse);
+           }
+           if(rightJoyStick.getRawButton(8)) {
+               climberPistion.set(DoubleSolenoid.Value.kOff);
+           }   
+               if(!digitalCompresser,get()) {
+                
+           }
+           Timer.delay(0.01); 
+        
        }
         
     }
