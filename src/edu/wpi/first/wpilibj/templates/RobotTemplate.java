@@ -4,9 +4,7 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 package edu.wpi.first.wpilibj.templates;
-
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -22,48 +20,51 @@ import edu.wpi.first.wpilibj.*;
  * directory.
  */
 public class RobotTemplate extends SimpleRobot {
-      Joystick leftJoyStick = new Joystick(1);
-      Joystick rightJoyStick = new Joystick(2);
-      RobotDrive robotDrive = new RobotDrive(4, 3, 2, 1);
-      DoubleSolenoid climberPiston = new DoubleSolenoid(3, 4);
-      Relay compressorSpike = new Relay(1);
-      DigitalInput digitalCompresser = DigitalInput(1);
-      
-      
+
+    Joystick leftJoyStick = new Joystick(1);
+    Joystick rightJoyStick = new Joystick(2);
+    RobotDrive robotDrive = new RobotDrive(4, 3, 2, 1);
+    DoubleSolenoid climberPiston = new DoubleSolenoid(3, 4);
+    Relay compressorSpike = new Relay(1);
+    DigitalInput digitalCompresser = new DigitalInput(1);
+
     public void autonomous() {
-        
+
     }
 
     /**
      * This function is called once each time the robot enters operator control.
      */
     public void operatorControl() {
-       robotDrive.setSafetyEnabled(true);
-       
-       while(isOperatorControl() && isEnabled()) {
-           robotDrive.tankDrive(-leftJoyStick.getY(), -rightJoyStick.getY());
-           if(rightJoyStick.getRawButton(6)) {
-               climberPistion.set(DoubleSolenoid.Value.kForward);
-           }
-           if(rightJoyStick.getRawButton(7)) {
-               climberPiston.set(DoubleSolenoid.Value.kReverse);
-           }
-           if(rightJoyStick.getRawButton(8)) {
-               climberPistion.set(DoubleSolenoid.Value.kOff);
-           }   
-               if(!digitalCompresser,get()) {
+        robotDrive.setSafetyEnabled(true);
+
+        while (isOperatorControl() && isEnabled()) {
+            robotDrive.tankDrive(-leftJoyStick.getY(), -rightJoyStick.getY());
+            if (rightJoyStick.getRawButton(6)) {
+                climberPiston.set(DoubleSolenoid.Value.kForward);
+            }
+            if (rightJoyStick.getRawButton(7)) {
+                climberPiston.set(DoubleSolenoid.Value.kReverse);
+            }
+            if (rightJoyStick.getRawButton(8)) {
+                climberPiston.set(DoubleSolenoid.Value.kOff);
+            }
+            if (!digitalCompresser.get()) {
+                climberPiston.set(DoubleSolenoid.Value.kForward);
+            } else {
+                climberPiston.set(DoubleSolenoid.Value.kOff);
                 
-           }
-           Timer.delay(0.01); 
-        
-       }
-        
+            }
+            Timer.delay(0.01);
+
+        }
+
     }
-    
+
     /**
      * This function is called once each time the robot enters test mode.
      */
     public void test() {
-    
+
     }
 }
